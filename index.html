@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEXICON 9,800 | Classroom Vocabulary Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+            --border: #334155;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --tile-bg: #334155;
+            --tile-border: #475569;
+            --tile-active: #6366f1;
+            --tile-locked: #059669;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
+            padding: 14px 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #818cf8, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover:not(:disabled) { background: var(--primary-hover); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-secondary { background: var(--surface-hover); color: var(--text-main); }
+        .btn-secondary:hover:not(:disabled) { background: var(--border); }
+        .btn-accent { background: var(--accent); }
+        .btn-accent:hover:not(:disabled) { filter: brightness(1.1); }
+        .btn-danger { background: rgba(239, 68, 68, 0.18); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.35); }
+        .btn-danger:hover:not(:disabled) { background: rgba(239, 68, 68, 0.3); color: white; }
+
+        /* Custom Deck Badge */
+        .deck-badge {
+            display: none;
+            align-self: center;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        .deck-badge.visible {
+            display: inline-block;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .screen.active {
+            display: flex;
+        }
+
+        /* Menu Screen */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card h1 { font-size: 1.8rem; font-weight: 800; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+
+        .student-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+            text-align: left;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .student-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .field-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .text-input {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 11px 12px;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            user-select: text;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .stat-box {
+            background: var(--bg-dark);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .stat-value { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+        /* Game HUD */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .hud-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hud-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .hud-val { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; }
+
+        /* Game Arena */
+        .game-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .clue-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 110px;
+            justify-content: center;
+        }
+
+        .clue-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .pos-badge {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .definition-text {
+            font-size: 1.05rem;
+            font-weight: 500;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        /* Word Tiles & Animations */
+        .tiles-container {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            min-height: 56px;
+        }
+
+        @keyframes tileShake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-7px); }
+            40% { transform: translateX(7px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+
+        @keyframes tilePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.14); }
+            100% { transform: scale(1); }
+        }
+
+        .tiles-container.shake {
+            animation: tileShake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        .tile {
+            width: 42px;
+            height: 50px;
+            background: var(--tile-bg);
+            border: 2px solid var(--tile-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+            cursor: pointer;
+        }
+
+        .tile.active {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.15);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .tile.locked {
+            background: rgba(5, 150, 105, 0.2);
+            border-color: var(--tile-locked);
+            color: #34d399;
+            cursor: default;
+        }
+
+        .tile.wrong {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .tile.correct {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.28);
+            color: #6ee7b7;
+            animation: tilePop 0.35s ease forwards;
+        }
+
+        /* Inline Feedback Banner */
+        .feedback-banner {
+            min-height: 28px;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .feedback-banner.visible { opacity: 1; }
+        .feedback-banner.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+        }
+        .feedback-banner.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+        .feedback-banner.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        /* Action Toolbar */
+        .action-bar {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-bar .btn {
+            flex: 1;
+            padding: 12px 8px;
+            font-size: 0.85rem;
+        }
+
+        /* Keyboard */
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: var(--surface);
+            padding: 14px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .key {
+            background: var(--surface-hover);
+            color: var(--text-main);
+            border: none;
+            padding: 12px 0;
+            flex: 1;
+            max-width: 36px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.1s;
+        }
+
+        .key:hover { background: var(--border); }
+        .key.wide { max-width: 60px; font-size: 0.75rem; }
+
+        /* SCORE CERTIFICATE STYLES */
+        .certificate-card {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #4f46e5;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .cert-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cert-title-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #818cf8;
+        }
+
+        .cert-code-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(99, 102, 241, 0.15);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            padding: 3px 10px;
+            border-radius: 6px;
+        }
+
+        .cert-student-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid var(--border);
+            padding: 14px 16px;
+            border-radius: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cert-student-name {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .cert-student-class {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .cert-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .cert-metric-box {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid var(--border);
+            padding: 12px 8px;
+            border-radius: 10px;
+        }
+
+        .cert-metric-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .cert-metric-lbl {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 3px;
+        }
+
+        /* Summary Report inside Certificate */
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 240px;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 4px;
+        }
+
+        .summary-item {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            border: 1px solid var(--border);
+            gap: 8px;
+        }
+
+        .summary-word {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--text-main);
+            min-width: 95px;
+        }
+
+        .summary-pts {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.78rem;
+            padding: 2px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .summary-pts.earned {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+        }
+        .summary-pts.skipped {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+        }
+
+        .cert-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .cert-edit-bar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Teacher Modal & Visual Editor */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .modal.active { display: flex; }
+
+        .modal-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 720px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-height: 92vh;
+            overflow: hidden;
+        }
+
+        .modal-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .editor-stats-pill {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .editor-stats-pill strong {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .paste-drawer {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            background: var(--bg-dark);
+            border: 1px dashed var(--primary);
+            padding: 12px;
+            border-radius: 10px;
+        }
+        .paste-drawer.visible { display: flex; }
+
+        .paste-textarea {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            resize: vertical;
+            min-height: 90px;
+            user-select: text;
+        }
+
+        .word-rows-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            max-height: 360px;
+            padding-right: 4px;
+        }
+
+        .word-row {
+            display: grid;
+            grid-template-columns: 44px 135px 110px 1fr 34px;
+            gap: 8px;
+            align-items: center;
+            background: var(--bg-dark);
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 600px) {
+            .word-row {
+                grid-template-columns: 40px 1fr 100px 32px;
+            }
+            .word-row .input-def {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .len-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 4px 6px;
+            border-radius: 6px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+        }
+
+        .row-input, .row-select {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            width: 100%;
+            user-select: text;
+        }
+
+        .row-input:focus, .row-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .input-word {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .del-row-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        .del-row-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .share-link-box {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 12px;
+            border-radius: 10px;
+        }
+        .share-link-box.visible { display: flex; }
+
+        .share-url-input {
+            width: 100%;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: #34d399;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            user-select: all;
+        }
+
+        /* PRINTER-FRIENDLY STYLESHEET */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #0f172a !important;
+                padding: 0 !important;
+            }
+            header, .no-print, #menu-screen, #game-screen, .modal {
+                display: none !important;
+            }
+            .container {
+                max-width: 100% !important;
+            }
+            .certificate-card {
+                background: #ffffff !important;
+                border: 2px solid #1e293b !important;
+                box-shadow: none !important;
+                color: #0f172a !important;
+            }
+            .cert-student-banner, .cert-metric-box, .summary-item {
+                background: #f8fafc !important;
+                border-color: #cbd5e1 !important;
+                color: #0f172a !important;
+            }
+            .cert-student-name, .summary-word {
+                color: #0f172a !important;
+            }
+            .cert-metric-val {
+                color: #047857 !important;
+            }
+            .summary-list {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo" id="app-logo">LEXICON 9,800</div>
+            <div class="header-btns">
+                <button class="btn btn-secondary" id="teacher-btn">Teacher Mode</button>
+            </div>
+        </header>
+
+        <!-- MENU SCREEN -->
+        <div id="menu-screen" class="screen active">
+            <div class="card">
+                <div class="deck-badge" id="custom-deck-badge">Custom Class Deck Loaded</div>
+                <h1>English Vocabulary Challenge</h1>
+                <p>Guess words from their definitions. Each letter is worth 100 points. Wrong guesses cost 50 potential points, or you can buy a letter clue for 100 points!</p>
+
+                <div class="student-form">
+                    <div class="field-group">
+                        <label class="field-label" for="student-name-input">Student Full Name</label>
+                        <input type="text" id="student-name-input" class="text-input" placeholder="e.g., Alex Rivera" maxlength="45" />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="student-class-input">Class / Period</label>
+                        <input type="text" id="student-class-input" class="text-input" placeholder="e.g., Period 3" maxlength="25" />
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value" id="menu-max-score">9,800 pts</div>
+                        <div class="stat-label">Max Possible Score</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="menu-word-count">14 Words</div>
+                        <div class="stat-label" id="menu-tier-label">7 Length Tiers</div>
+                    </div>
+                </div>
+
+                <button class="btn" id="start-btn" style="padding: 14px; font-size: 1rem; margin-top: 4px;">START CHALLENGE</button>
+            </div>
+        </div>
+
+        <!-- GAME SCREEN -->
+        <div id="game-screen" class="screen">
+            <div class="hud">
+                <div class="hud-item">
+                    <span class="hud-label">Word</span>
+                    <span class="hud-val" id="hud-progress">1 / 14</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">Score</span>
+                    <span class="hud-val" id="hud-score" style="color: var(--accent);">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">Potential</span>
+                    <span class="hud-val" id="hud-potential">400</span>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="clue-box">
+                    <div class="clue-meta">
+                        <span id="hud-length-tier">4 Letters</span>
+                        <span class="pos-badge" id="hud-pos">noun</span>
+                    </div>
+                    <div class="definition-text" id="hud-definition">Loading definition...</div>
+                </div>
+
+                <div class="tiles-container" id="tiles-container"></div>
+
+                <div class="feedback-banner" id="feedback-banner"></div>
+
+                <div class="action-bar">
+                    <button class="btn btn-secondary" id="buy-letter-btn">BUY CLUE (-100)</button>
+                    <button class="btn btn-danger" id="skip-word-btn">SKIP (0 PTS)</button>
+                    <button class="btn btn-accent" id="submit-btn">SUBMIT GUESS</button>
+                </div>
+            </div>
+
+            <div class="keyboard" id="keyboard">
+                <div class="keyboard-row">
+                    <button class="key" data-key="Q">Q</button><button class="key" data-key="W">W</button><button class="key" data-key="E">E</button><button class="key" data-key="R">R</button><button class="key" data-key="T">T</button><button class="key" data-key="Y">Y</button><button class="key" data-key="U">U</button><button class="key" data-key="I">I</button><button class="key" data-key="O">O</button><button class="key" data-key="P">P</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key" data-key="A">A</button><button class="key" data-key="S">S</button><button class="key" data-key="D">D</button><button class="key" data-key="F">F</button><button class="key" data-key="G">G</button><button class="key" data-key="H">H</button><button class="key" data-key="J">J</button><button class="key" data-key="K">K</button><button class="key" data-key="L">L</button>
+                </div>
+                <div class="keyboard-row">
+                    <button class="key wide" data-key="BACK">DEL</button>
+                    <button class="key" data-key="Z">Z</button><button class="key" data-key="X">X</button><button class="key" data-key="C">C</button><button class="key" data-key="V">V</button><button class="key" data-key="B">B</button><button class="key" data-key="N">N</button><button class="key" data-key="M">M</button>
+                    <button class="key wide" data-key="ENTER">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS / CERTIFICATE SCREEN -->
+        <div id="results-screen" class="screen">
+            <!-- Quick name editor if student forgot on Menu screen (hidden when printing) -->
+            <div class="cert-edit-bar no-print">
+                <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Certificate Info:</span>
+                <input type="text" id="cert-name-edit" class="row-input" style="flex: 2; min-width: 140px;" placeholder="Enter Student Name..." maxlength="45" />
+                <input type="text" id="cert-class-edit" class="row-input" style="flex: 1; min-width: 100px;" placeholder="Period / Class..." maxlength="25" />
+            </div>
+
+            <!-- Screenshot & Print-Ready Certificate -->
+            <div class="certificate-card" id="certificate-card">
+                <div class="cert-top-bar">
+                    <span class="cert-title-label">Official Vocabulary Challenge Report</span>
+                    <span class="cert-code-pill" id="cert-verify-code">VER-0000</span>
+                </div>
+
+                <div class="cert-student-banner">
+                    <div class="cert-student-name" id="cert-display-name">Anonymous Student</div>
+                    <div class="cert-student-class" id="cert-display-class">General Classroom</div>
+                </div>
+
+                <div class="cert-metrics-grid">
+                    <div class="cert-metric-box">
+                        <div class="cert-metric-val" id="final-score">0 / 9,800</div>
+                        <div class="cert-metric-lbl">Total Score</div>
+                    </div>
+                    <div class="cert-metric-box">
+                        <div class="cert-metric-val" id="final-accuracy">0%</div>
+                        <div class="cert-metric-lbl">Score Accuracy</div>
+                    </div>
+                    <div class="cert-metric-box">
+                        <div class="cert-metric-val" id="final-mastered">0 / 14</div>
+                        <div class="cert-metric-lbl">Words Solved</div>
+                    </div>
+                </div>
+
+                <div class="summary-list" id="summary-list"></div>
+
+                <div class="cert-footer">
+                    <span id="cert-timestamp">Completed: --</span>
+                    <span id="cert-deck-tag">Deck: Standard 14-Word Challenge</span>
+                </div>
+            </div>
+
+            <div class="no-print" style="display: flex; gap: 10px;">
+                <button class="btn btn-accent" id="print-cert-btn" style="flex: 1; padding: 12px;">🖨️ Print / Save PDF</button>
+                <button class="btn btn-secondary" id="share-btn" style="flex: 1; padding: 12px;">📋 Copy Summary</button>
+                <button class="btn" id="restart-btn" style="flex: 1; padding: 12px;">🔄 Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEACHER MODE MODAL -->
+    <div class="modal" id="teacher-modal">
+        <div class="modal-card">
+            <div class="modal-header-row">
+                <h2>Teacher Word List Editor</h2>
+                <div class="editor-stats-pill" id="editor-live-stats">
+                    <strong>14</strong> Words &bull; <strong>9,800</strong> Max Pts
+                </div>
+            </div>
+
+            <div class="editor-toolbar">
+                <button class="btn" id="add-word-row-btn">+ Add Word</button>
+                <button class="btn btn-secondary" id="toggle-paste-btn">📋 Paste from Spreadsheet</button>
+                <button class="btn btn-secondary" id="clear-all-btn" style="margin-left: auto;">Clear All</button>
+                <button class="btn btn-secondary" id="reset-default-btn">Reset Default</button>
+            </div>
+
+            <!-- Collapsible Spreadsheet Paste Area -->
+            <div class="paste-drawer" id="paste-drawer">
+                <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                    Copy columns directly from <strong>Excel</strong> or <strong>Google Sheets</strong> and paste below. Supports <strong>2 columns</strong> (<code>Word | Definition</code>) or <strong>3 columns</strong> (<code>Word | Part of Speech | Definition</code>).
+                </div>
+                <textarea class="paste-textarea" id="spreadsheet-paste-input" placeholder="CALM&#9;adjective&#9;Not showing nervousness or strong emotion&#10;ECHO&#9;noun&#9;A sound caused by reflection of sound waves"></textarea>
+                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                    <button class="btn btn-secondary" id="append-paste-btn">Append to List</button>
+                    <button class="btn btn-accent" id="replace-paste-btn">Replace List with Pasted Words</button>
+                </div>
+            </div>
+
+            <!-- Scrollable Visual Row List -->
+            <div class="word-rows-wrapper" id="teacher-rows-container"></div>
+
+            <!-- Generated Student Link Output -->
+            <div class="share-link-box" id="share-link-box">
+                <span style="font-size: 0.8rem; font-weight: 700; color: #34d399;">✓ Student Link Generated &amp; Copied to Clipboard:</span>
+                <input type="text" class="share-url-input" id="generated-url-input" readonly />
+            </div>
+
+            <div style="display: flex; gap: 8px; justify-content: flex-end; padding-top: 4px; border-top: 1px solid var(--border);">
+                <button class="btn btn-secondary" id="close-modal-btn">Close</button>
+                <button class="btn btn-accent" id="save-words-btn">Generate &amp; Copy Student Link</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DEFAULT_WORD_BANK = [
+            { word: "CALM", pos: "adjective", def: "Not showing or feeling nervousness, anger, or other strong emotions." },
+            { word: "ECHO", pos: "noun", def: "A sound or series of sounds caused by the reflection of sound waves." },
+            { word: "BRIEF", pos: "adjective", def: "Of short duration; lasting for a short time." },
+            { word: "CANDY", pos: "noun", def: "A sweet food made with sugar or syrup." },
+            { word: "CANDID", pos: "adjective", def: "Truthful and straightforward; frank." },
+            { word: "FOSSIL", pos: "noun", def: "The remains or impression of a prehistoric organism preserved in petrified form." },
+            { word: "CURIOUS", pos: "adjective", def: "Eager to know or learn something." },
+            { word: "BALANCE", pos: "noun", def: "An even distribution of weight enabling someone or something to remain upright." },
+            { word: "ABSOLUTE", pos: "adjective", def: "Total and complete; not qualified or diminished in any way." },
+            { word: "DYNAMITE", pos: "noun", def: "A high explosive consisting of nitroglycerin mixed with an absorbent material." },
+            { word: "BRILLIANT", pos: "adjective", def: "Clever, talented, or exceptionally bright." },
+            { word: "ADVENTURE", pos: "noun", def: "An unusual and exciting, typically hazardous, experience or activity." },
+            { word: "ATMOSPHERE", pos: "noun", def: "The envelope of gases surrounding the earth or another planet." },
+            { word: "ENTHUSIASM", pos: "noun", def: "Intense and eager enjoyment, interest, or approval." }
+        ];
+
+        const POS_OPTIONS = ["noun", "verb", "adjective", "adverb", "phrase", "vocab"];
+        const WRONG_GUESS_PENALTY = 50;
+        const MIN_POTENTIAL_FLOOR = 50;
+
+        function encodeDeckToParam(deckArray) {
+            const minimal = deckArray.map(item => ({
+                word: String(item.word || "").trim().toUpperCase(),
+                pos: String(item.pos || "vocab").trim(),
+                def: String(item.def || "").trim()
+            }));
+            return btoa(encodeURIComponent(JSON.stringify(minimal)));
+        }
+
+        function decodeDeckFromParam(encodedStr) {
+            try {
+                const jsonStr = decodeURIComponent(atob(encodedStr));
+                const parsed = JSON.parse(jsonStr);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    return sanitizeDeck(parsed);
+                }
+            } catch (e) {
+                console.error("Failed to decode URL deck:", e);
+            }
+            return null;
+        }
+
+        function sanitizeDeck(rawArray) {
+            return rawArray
+                .filter(w => w && typeof w.word === "string" && w.word.trim().length > 0 && typeof w.def === "string" && w.def.trim().length > 0)
+                .map(w => {
+                    const cleanWord = w.word.trim().toUpperCase().replace(/[^A-Z]/g, "");
+                    return {
+                        word: cleanWord,
+                        length: cleanWord.length,
+                        pos: (w.pos || "vocab").trim().toLowerCase(),
+                        def: w.def.trim()
+                    };
+                })
+                .filter(w => w.length >= 2);
+        }
+
+        function parseSpreadsheetText(rawText) {
+            const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+            const results = [];
+
+            lines.forEach((line, idx) => {
+                let parts = line.includes('\t')
+                    ? line.split('\t').map(s => s.trim())
+                    : line.includes('|')
+                        ? line.split('|').map(s => s.trim())
+                        : line.split(/\s*[-–—:]\s*(.+)/).map(s => s.trim()).filter(Boolean);
+
+                if (parts.length < 2) return;
+
+                const firstLower = parts[0].toLowerCase();
+                if (idx === 0 && (firstLower === "word" || firstLower === "vocabulary" || firstLower === "term")) {
+                    return;
+                }
+
+                let word = "", pos = "vocab", def = "";
+                if (parts.length >= 3) {
+                    word = parts[0];
+                    pos = parts[1].toLowerCase() || "vocab";
+                    def = parts.slice(2).join(" ");
+                } else {
+                    word = parts[0];
+                    def = parts[1];
+                }
+
+                const cleanWord = word.toUpperCase().replace(/[^A-Z]/g, "");
+                if (cleanWord.length >= 2 && def.length > 0) {
+                    results.push({ word: cleanWord, pos, def });
+                }
+            });
+
+            return results;
+        }
+
+        function getActiveDeckInfo() {
+            const params = new URLSearchParams(window.location.search);
+            const urlDeckParam = params.get('deck');
+
+            if (urlDeckParam) {
+                const decoded = decodeDeckFromParam(urlDeckParam);
+                if (decoded && decoded.length > 0) {
+                    return { words: decoded, source: 'url' };
+                }
+            }
+
+            const localCustom = localStorage.getItem('lexicon_custom_words');
+            if (localCustom) {
+                try {
+                    const parsed = sanitizeDeck(JSON.parse(localCustom));
+                    if (parsed.length > 0) {
+                        return { words: parsed, source: 'local' };
+                    }
+                } catch (e) {}
+            }
+
+            return { words: sanitizeDeck(DEFAULT_WORD_BANK), source: 'default' };
+        }
+
+        function calculateMaxScore(words) {
+            return words.reduce((sum, w) => sum + (w.word.length * 100), 0);
+        }
+
+        // Generate a short anti-tamper verification code from student name, score, and deck
+        function generateVerificationCode(name, score, maxScore, wordsCount, completedTimeStr) {
+            const raw = `${name.trim().toUpperCase()}|${score}|${maxScore}|${wordsCount}|${completedTimeStr}`;
+            let hash = 2166136261;
+            for (let i = 0; i < raw.length; i++) {
+                hash ^= raw.charCodeAt(i);
+                hash = Math.imul(hash, 16777619);
+            }
+            const hex = (hash >>> 0).toString(16).toUpperCase().padStart(8, '0');
+            return `VER-${hex.slice(0, 4)}-${hex.slice(4, 8)}`;
+        }
+
+        function syncMenuStats() {
+            const { words, source } = getActiveDeckInfo();
+            const maxPts = calculateMaxScore(words);
+            const uniqueLengths = new Set(words.map(w => w.word.length)).size;
+
+            document.getElementById('app-logo').textContent = `LEXICON ${maxPts.toLocaleString()}`;
+            document.getElementById('menu-max-score').textContent = `${maxPts.toLocaleString()} pts`;
+            document.getElementById('menu-word-count').textContent = `${words.length} Words`;
+            document.getElementById('menu-tier-label').textContent = `${uniqueLengths} Length Tiers`;
+
+            const badge = document.getElementById('custom-deck-badge');
+            const teacherBtn = document.getElementById('teacher-btn');
+
+            if (source === 'url') {
+                badge.textContent = "Custom Class Deck Loaded via Link";
+                badge.classList.add('visible');
+                teacherBtn.style.display = 'none';
+            } else if (source === 'local') {
+                badge.textContent = "Custom Deck Active (Saved Locally)";
+                badge.classList.add('visible');
+                teacherBtn.style.display = 'inline-block';
+            } else {
+                badge.classList.remove('visible');
+                teacherBtn.style.display = 'inline-block';
+            }
+        }
+
+        // Visual Row Editor Functions
+        function createWordRowElement(item = { word: "", pos: "noun", def: "" }) {
+            const row = document.createElement('div');
+            row.className = 'word-row';
+
+            const cleanInitWord = (item.word || "").toUpperCase().replace(/[^A-Z]/g, "");
+            const lenPill = document.createElement('div');
+            lenPill.className = 'len-pill';
+            lenPill.textContent = `${cleanInitWord.length}L`;
+
+            const wordInput = document.createElement('input');
+            wordInput.type = 'text';
+            wordInput.className = 'row-input input-word';
+            wordInput.placeholder = 'WORD';
+            wordInput.value = cleanInitWord;
+
+            wordInput.addEventListener('input', () => {
+                const cleaned = wordInput.value.toUpperCase().replace(/[^A-Z]/g, "");
+                wordInput.value = cleaned;
+                lenPill.textContent = `${cleaned.length}L`;
+                updateEditorLiveStats();
+            });
+
+            wordInput.addEventListener('paste', (e) => {
+                const clipText = (e.clipboardData || window.clipboardData).getData('text');
+                if (clipText && (clipText.includes('\t') || clipText.includes('\n'))) {
+                    const parsedRows = parseSpreadsheetText(clipText);
+                    if (parsedRows.length > 0) {
+                        e.preventDefault();
+                        const container = document.getElementById('teacher-rows-container');
+                        const first = parsedRows[0];
+                        wordInput.value = first.word;
+                        lenPill.textContent = `${first.word.length}L`;
+                        posSelect.value = POS_OPTIONS.includes(first.pos) ? first.pos : "vocab";
+                        defInput.value = first.def;
+
+                        for (let i = 1; i < parsedRows.length; i++) {
+                            container.appendChild(createWordRowElement(parsedRows[i]));
+                        }
+                        updateEditorLiveStats();
+                    }
+                }
+            });
+
+            const posSelect = document.createElement('select');
+            posSelect.className = 'row-select input-pos';
+            const normalizedPos = (item.pos || "noun").toLowerCase();
+            POS_OPTIONS.forEach(opt => {
+                const optionEl = document.createElement('option');
+                optionEl.value = opt;
+                optionEl.textContent = opt;
+                if (opt === normalizedPos) optionEl.selected = true;
+                posSelect.appendChild(optionEl);
+            });
+
+            const defInput = document.createElement('input');
+            defInput.type = 'text';
+            defInput.className = 'row-input input-def';
+            defInput.placeholder = 'Enter definition or clue...';
+            defInput.value = item.def || "";
+            defInput.addEventListener('input', updateEditorLiveStats);
+
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.className = 'del-row-btn';
+            delBtn.title = 'Remove word';
+            delBtn.textContent = '✕';
+            delBtn.addEventListener('click', () => {
+                row.remove();
+                updateEditorLiveStats();
+            });
+
+            row.appendChild(lenPill);
+            row.appendChild(wordInput);
+            row.appendChild(posSelect);
+            row.appendChild(defInput);
+            row.appendChild(delBtn);
+
+            return row;
+        }
+
+        function renderEditorRows(wordsArray) {
+            const container = document.getElementById('teacher-rows-container');
+            container.innerHTML = '';
+            wordsArray.forEach(item => {
+                container.appendChild(createWordRowElement(item));
+            });
+            if (wordsArray.length === 0) {
+                container.appendChild(createWordRowElement({ word: "", pos: "noun", def: "" }));
+            }
+            updateEditorLiveStats();
+        }
+
+        function collectEditorRows() {
+            const rows = document.querySelectorAll('#teacher-rows-container .word-row');
+            const rawList = [];
+            rows.forEach(r => {
+                const word = r.querySelector('.input-word').value;
+                const pos = r.querySelector('.input-pos').value;
+                const def = r.querySelector('.input-def').value;
+                rawList.push({ word, pos, def });
+            });
+            return sanitizeDeck(rawList);
+        }
+
+        function updateEditorLiveStats() {
+            const validWords = collectEditorRows();
+            const maxPts = calculateMaxScore(validWords);
+            document.getElementById('editor-live-stats').innerHTML =
+                `<strong>${validWords.length}</strong> Valid Words &bull; <strong>${maxPts.toLocaleString()}</strong> Max Pts`;
+        }
+
+        // Game State
+        let gameState = {
+            studentName: "",
+            studentClass: "",
+            currentIndex: 0,
+            score: 0,
+            maxScore: 9800,
+            currentWordObj: null,
+            targetWord: "",
+            userGuesses: [],
+            purchasedIndices: new Set(),
+            activeTileIndex: 0,
+            currentPotential: 0,
+            sessionWords: [],
+            wordResults: [],
+            completedTimestamp: "",
+            deckSource: "default",
+            isTransitioning: false
+        };
+
+        const screens = {
+            menu: document.getElementById('menu-screen'),
+            game: document.getElementById('game-screen'),
+            results: document.getElementById('results-screen')
+        };
+
+        function switchScreen(screenName) {
+            Object.values(screens).forEach(s => s.classList.remove('active'));
+            screens[screenName].classList.add('active');
+        }
+
+        function showFeedback(message, type = 'error') {
+            const banner = document.getElementById('feedback-banner');
+            banner.textContent = message;
+            banner.className = `feedback-banner visible ${type}`;
+        }
+
+        function clearFeedback() {
+            const banner = document.getElementById('feedback-banner');
+            banner.textContent = '';
+            banner.className = 'feedback-banner';
+        }
+
+        function triggerTileShake(markWrong = false) {
+            const container = document.getElementById('tiles-container');
+            container.classList.remove('shake');
+            void container.offsetWidth;
+            container.classList.add('shake');
+
+            if (markWrong) {
+                const tiles = container.querySelectorAll('.tile:not(.locked)');
+                tiles.forEach(t => t.classList.add('wrong'));
+                setTimeout(() => {
+                    tiles.forEach(t => t.classList.remove('wrong'));
+                }, 650);
+            }
+        }
+
+        function startGame() {
+            const { words, source } = getActiveDeckInfo();
+            if (words.length === 0) {
+                alert("Please add at least one valid word in Teacher Mode.");
+                return;
+            }
+
+            const nameIn = document.getElementById('student-name-input').value.trim();
+            const classIn = document.getElementById('student-class-input').value.trim();
+
+            gameState.studentName = nameIn || "Student";
+            gameState.studentClass = classIn || "";
+            gameState.deckSource = source;
+
+            localStorage.setItem('lexicon_student_name', nameIn);
+            localStorage.setItem('lexicon_student_class', classIn);
+
+            gameState.sessionWords = [...words].sort((a, b) => a.word.length - b.word.length);
+            gameState.maxScore = calculateMaxScore(gameState.sessionWords);
+            gameState.currentIndex = 0;
+            gameState.score = 0;
+            gameState.wordResults = [];
+            gameState.isTransitioning = false;
+            loadWord();
+            switchScreen('game');
+        }
+
+        function loadWord() {
+            if (gameState.currentIndex >= gameState.sessionWords.length) {
+                endGame();
+                return;
+            }
+
+            gameState.isTransitioning = false;
+            clearFeedback();
+
+            let wObj = gameState.sessionWords[gameState.currentIndex];
+            gameState.currentWordObj = wObj;
+            gameState.targetWord = wObj.word.toUpperCase();
+            gameState.userGuesses = new Array(wObj.word.length).fill("");
+            gameState.purchasedIndices.clear();
+            gameState.activeTileIndex = 0;
+            gameState.currentPotential = wObj.word.length * 100;
+
+            document.getElementById('hud-progress').textContent = `${gameState.currentIndex + 1} / ${gameState.sessionWords.length}`;
+            document.getElementById('hud-score').textContent = gameState.score.toLocaleString();
+            document.getElementById('hud-potential').textContent = gameState.currentPotential;
+            document.getElementById('hud-length-tier').textContent = `${wObj.word.length} Letters`;
+            document.getElementById('hud-pos').textContent = wObj.pos;
+            document.getElementById('hud-definition').textContent = wObj.def;
+
+            renderTiles();
+        }
+
+        function renderTiles() {
+            const container = document.getElementById('tiles-container');
+            container.innerHTML = '';
+
+            for (let i = 0; i < gameState.targetWord.length; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                if (i === gameState.activeTileIndex && !gameState.purchasedIndices.has(i) && !gameState.isTransitioning) {
+                    tile.classList.add('active');
+                }
+                if (gameState.purchasedIndices.has(i)) {
+                    tile.classList.add('locked');
+                    tile.textContent = gameState.targetWord[i];
+                } else {
+                    tile.textContent = gameState.userGuesses[i];
+                }
+
+                tile.addEventListener('click', () => {
+                    if (!gameState.purchasedIndices.has(i) && !gameState.isTransitioning) {
+                        gameState.activeTileIndex = i;
+                        renderTiles();
+                    }
+                });
+
+                container.appendChild(tile);
+            }
+        }
+
+        function handleKeyPress(key) {
+            if (gameState.isTransitioning) return;
+
+            if (key === 'BACK') {
+                if (gameState.userGuesses[gameState.activeTileIndex] !== "") {
+                    gameState.userGuesses[gameState.activeTileIndex] = "";
+                } else {
+                    let prev = gameState.activeTileIndex - 1;
+                    while (prev >= 0 && gameState.purchasedIndices.has(prev)) prev--;
+                    if (prev >= 0) {
+                        gameState.activeTileIndex = prev;
+                        gameState.userGuesses[gameState.activeTileIndex] = "";
+                    }
+                }
+            } else if (key === 'ENTER') {
+                submitGuess();
+                return;
+            } else {
+                if (!gameState.purchasedIndices.has(gameState.activeTileIndex)) {
+                    gameState.userGuesses[gameState.activeTileIndex] = key;
+                    let next = gameState.activeTileIndex + 1;
+                    while (next < gameState.targetWord.length && gameState.purchasedIndices.has(next)) next++;
+                    if (next < gameState.targetWord.length) {
+                        gameState.activeTileIndex = next;
+                    }
+                }
+            }
+            renderTiles();
+        }
+
+        function buyLetter() {
+            if (gameState.isTransitioning) return;
+
+            let availableIndices = [];
+            for (let i = 0; i < gameState.targetWord.length; i++) {
+                if (!gameState.purchasedIndices.has(i)) availableIndices.push(i);
+            }
+
+            if (availableIndices.length <= 1) {
+                triggerTileShake(false);
+                showFeedback("At least one letter must remain unrevealed for you to guess!", "warning");
+                return;
+            }
+
+            if (gameState.currentPotential <= 100) {
+                triggerTileShake(false);
+                showFeedback("Potential points are too low to buy another clue!", "warning");
+                return;
+            }
+
+            let randIdx = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+            gameState.purchasedIndices.add(randIdx);
+            gameState.userGuesses[randIdx] = gameState.targetWord[randIdx];
+            gameState.currentPotential = Math.max(MIN_POTENTIAL_FLOOR, gameState.currentPotential - 100);
+
+            document.getElementById('hud-potential').textContent = gameState.currentPotential;
+            showFeedback(`Letter revealed! (-100 potential pts)`, "warning");
+
+            if (gameState.purchasedIndices.has(gameState.activeTileIndex)) {
+                let next = 0;
+                while (next < gameState.targetWord.length && gameState.purchasedIndices.has(next)) next++;
+                if (next < gameState.targetWord.length) gameState.activeTileIndex = next;
+            }
+
+            renderTiles();
+        }
+
+        function submitGuess() {
+            if (gameState.isTransitioning) return;
+
+            let finalGuess = "";
+            for (let i = 0; i < gameState.targetWord.length; i++) {
+                finalGuess += gameState.userGuesses[i] || "_";
+            }
+
+            if (finalGuess.includes("_")) {
+                triggerTileShake(false);
+                showFeedback("Fill in all letter tiles before submitting!", "warning");
+                return;
+            }
+
+            if (finalGuess === gameState.targetWord) {
+                gameState.isTransitioning = true;
+                const earned = gameState.currentPotential;
+                gameState.score += earned;
+                document.getElementById('hud-score').textContent = gameState.score.toLocaleString();
+
+                gameState.wordResults.push({
+                    word: gameState.targetWord,
+                    def: gameState.currentWordObj.def,
+                    earned: earned,
+                    max: gameState.targetWord.length * 100,
+                    solved: true
+                });
+
+                const tiles = document.querySelectorAll('#tiles-container .tile');
+                tiles.forEach((tile, idx) => {
+                    setTimeout(() => tile.classList.add('correct'), idx * 45);
+                });
+
+                showFeedback(`Correct! +${earned} points`, "success");
+
+                setTimeout(() => {
+                    gameState.currentIndex++;
+                    loadWord();
+                }, 950);
+            } else {
+                const previousPotential = gameState.currentPotential;
+                gameState.currentPotential = Math.max(MIN_POTENTIAL_FLOOR, gameState.currentPotential - WRONG_GUESS_PENALTY);
+                const actualPenalty = previousPotential - gameState.currentPotential;
+
+                document.getElementById('hud-potential').textContent = gameState.currentPotential;
+                triggerTileShake(true);
+
+                if (actualPenalty > 0) {
+                    showFeedback(`Not quite! -${actualPenalty} pts — edit your letters and try again!`, "error");
+                } else {
+                    showFeedback(`Not quite! Keep trying or buy a clue!`, "error");
+                }
+
+                let firstUnlocked = 0;
+                while (firstUnlocked < gameState.targetWord.length && gameState.purchasedIndices.has(firstUnlocked)) {
+                    firstUnlocked++;
+                }
+                if (firstUnlocked < gameState.targetWord.length) {
+                    gameState.activeTileIndex = firstUnlocked;
+                }
+            }
+        }
+
+        function skipWord() {
+            if (gameState.isTransitioning) return;
+            gameState.isTransitioning = true;
+
+            for (let i = 0; i < gameState.targetWord.length; i++) {
+                gameState.userGuesses[i] = gameState.targetWord[i];
+            }
+            renderTiles();
+
+            gameState.wordResults.push({
+                word: gameState.targetWord,
+                def: gameState.currentWordObj.def,
+                earned: 0,
+                max: gameState.targetWord.length * 100,
+                solved: false
+            });
+
+            const tiles = document.querySelectorAll('#tiles-container .tile');
+            tiles.forEach(t => t.classList.add('wrong'));
+
+            showFeedback(`Skipped! The word was ${gameState.targetWord} (0 pts)`, "warning");
+
+            setTimeout(() => {
+                gameState.currentIndex++;
+                loadWord();
+            }, 1400);
+        }
+
+        function renderCertificateDetails() {
+            const displayName = gameState.studentName.trim() || "Anonymous Student";
+            const displayClass = gameState.studentClass.trim() || "Vocabulary Challenge";
+            const accuracyPct = gameState.maxScore > 0
+                ? Math.round((gameState.score / gameState.maxScore) * 100)
+                : 0;
+            const solvedCount = gameState.wordResults.filter(r => r.solved).length;
+            const totalWords = gameState.sessionWords.length;
+
+            document.getElementById('cert-display-name').textContent = displayName;
+            document.getElementById('cert-display-class').textContent = displayClass;
+            document.getElementById('final-score').textContent = `${gameState.score.toLocaleString()} / ${gameState.maxScore.toLocaleString()}`;
+            document.getElementById('final-accuracy').textContent = `${accuracyPct}%`;
+            document.getElementById('final-mastered').textContent = `${solvedCount} / ${totalWords}`;
+            document.getElementById('cert-timestamp').textContent = `Completed: ${gameState.completedTimestamp}`;
+            document.getElementById('cert-deck-tag').textContent =
+                gameState.deckSource === 'default' ? `Deck: Standard (${totalWords} Words)` : `Deck: Custom Teacher Deck (${totalWords} Words)`;
+
+            const verifyCode = generateVerificationCode(
+                displayName,
+                gameState.score,
+                gameState.maxScore,
+                totalWords,
+                gameState.completedTimestamp
+            );
+            document.getElementById('cert-verify-code').textContent = verifyCode;
+        }
+
+        function endGame() {
+            switchScreen('results');
+
+            const now = new Date();
+            gameState.completedTimestamp = now.toLocaleString([], {
+                year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+
+            const certNameInput = document.getElementById('cert-name-edit');
+            const certClassInput = document.getElementById('cert-class-edit');
+            certNameInput.value = gameState.studentName === "Student" ? "" : gameState.studentName;
+            certClassInput.value = gameState.studentClass;
+
+            renderCertificateDetails();
+
+            let summaryList = document.getElementById('summary-list');
+            summaryList.innerHTML = '';
+            gameState.wordResults.forEach(r => {
+                let item = document.createElement('div');
+                item.className = 'summary-item';
+                const badgeClass = r.solved ? 'earned' : 'skipped';
+                const badgeText = r.solved ? `+${r.earned} pts` : `Skipped (0 pts)`;
+                item.innerHTML = `
+                    <span class="summary-word">${r.word}</span>
+                    <span style="color: var(--text-muted); font-size: 0.78rem; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${r.def}</span>
+                    <span class="summary-pts ${badgeClass}">${badgeText}</span>
+                `;
+                summaryList.appendChild(item);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            syncMenuStats();
+
+            // Restore saved student name/class if present
+            const savedName = localStorage.getItem('lexicon_student_name') || "";
+            const savedClass = localStorage.getItem('lexicon_student_class') || "";
+            document.getElementById('student-name-input').value = savedName;
+            document.getElementById('student-class-input').value = savedClass;
+
+            document.getElementById('start-btn').addEventListener('click', startGame);
+            document.getElementById('restart-btn').addEventListener('click', startGame);
+            document.getElementById('buy-letter-btn').addEventListener('click', buyLetter);
+            document.getElementById('skip-word-btn').addEventListener('click', skipWord);
+            document.getElementById('submit-btn').addEventListener('click', submitGuess);
+
+            // Live certificate name/class editing on Results screen
+            document.getElementById('cert-name-edit').addEventListener('input', (e) => {
+                gameState.studentName = e.target.value.trim() || "Student";
+                localStorage.setItem('lexicon_student_name', e.target.value.trim());
+                renderCertificateDetails();
+            });
+
+            document.getElementById('cert-class-edit').addEventListener('input', (e) => {
+                gameState.studentClass = e.target.value.trim();
+                localStorage.setItem('lexicon_student_class', e.target.value.trim());
+                renderCertificateDetails();
+            });
+
+            document.getElementById('print-cert-btn').addEventListener('click', () => {
+                window.print();
+            });
+
+            document.querySelectorAll('.key').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    handleKeyPress(btn.getAttribute('data-key'));
+                });
+            });
+
+            window.addEventListener('keydown', (e) => {
+                if (!screens.game.classList.contains('active')) return;
+                if (e.key === 'Backspace') {
+                    handleKeyPress('BACK');
+                } else if (e.key === 'Enter') {
+                    handleKeyPress('ENTER');
+                } else {
+                    let k = e.key.toUpperCase();
+                    if (/^[A-Z]$/.test(k)) {
+                        handleKeyPress(k);
+                    }
+                }
+            });
+
+            // Teacher Modal & Form Controls
+            const modal = document.getElementById('teacher-modal');
+            const shareBox = document.getElementById('share-link-box');
+            const urlInput = document.getElementById('generated-url-input');
+            const pasteDrawer = document.getElementById('paste-drawer');
+            const pasteInput = document.getElementById('spreadsheet-paste-input');
+            const rowsContainer = document.getElementById('teacher-rows-container');
+
+            document.getElementById('teacher-btn').addEventListener('click', () => {
+                const { words } = getActiveDeckInfo();
+                renderEditorRows(words);
+                shareBox.classList.remove('visible');
+                pasteDrawer.classList.remove('visible');
+                modal.classList.add('active');
+            });
+
+            document.getElementById('close-modal-btn').addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            document.getElementById('add-word-row-btn').addEventListener('click', () => {
+                const newRow = createWordRowElement({ word: "", pos: "noun", def: "" });
+                rowsContainer.appendChild(newRow);
+                rowsContainer.scrollTop = rowsContainer.scrollHeight;
+                newRow.querySelector('.input-word').focus();
+                updateEditorLiveStats();
+            });
+
+            document.getElementById('toggle-paste-btn').addEventListener('click', () => {
+                pasteDrawer.classList.toggle('visible');
+                if (pasteDrawer.classList.contains('visible')) {
+                    pasteInput.focus();
+                }
+            });
+
+            document.getElementById('replace-paste-btn').addEventListener('click', () => {
+                const parsed = parseSpreadsheetText(pasteInput.value);
+                if (parsed.length === 0) {
+                    alert("Could not detect valid rows. Make sure each line has a Word and a Definition separated by a Tab or Pipe (|).");
+                    return;
+                }
+                renderEditorRows(parsed);
+                pasteInput.value = '';
+                pasteDrawer.classList.remove('visible');
+            });
+
+            document.getElementById('append-paste-btn').addEventListener('click', () => {
+                const parsed = parseSpreadsheetText(pasteInput.value);
+                if (parsed.length === 0) {
+                    alert("Could not detect valid rows. Make sure each line has a Word and a Definition separated by a Tab or Pipe (|).");
+                    return;
+                }
+                parsed.forEach(item => {
+                    rowsContainer.appendChild(createWordRowElement(item));
+                });
+                updateEditorLiveStats();
+                pasteInput.value = '';
+                pasteDrawer.classList.remove('visible');
+            });
+
+            document.getElementById('clear-all-btn').addEventListener('click', () => {
+                renderEditorRows([]);
+                shareBox.classList.remove('visible');
+            });
+
+            document.getElementById('reset-default-btn').addEventListener('click', () => {
+                localStorage.removeItem('lexicon_custom_words');
+                window.history.replaceState({}, document.title, window.location.pathname);
+                renderEditorRows(DEFAULT_WORD_BANK);
+                shareBox.classList.remove('visible');
+                syncMenuStats();
+            });
+
+            document.getElementById('save-words-btn').addEventListener('click', () => {
+                const sanitized = collectEditorRows();
+                if (sanitized.length === 0) {
+                    alert("Please enter at least one valid word (2+ letters) and its definition before generating a link.");
+                    return;
+                }
+
+                localStorage.setItem('lexicon_custom_words', JSON.stringify(sanitized));
+
+                const encoded = encodeDeckToParam(sanitized);
+                const baseUrl = window.location.href.split('?')[0];
+                const shareableUrl = `${baseUrl}?deck=${encoded}`;
+
+                urlInput.value = shareableUrl;
+                shareBox.classList.add('visible');
+
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(shareableUrl).catch(() => {});
+                }
+
+                syncMenuStats();
+            });
+
+            document.getElementById('share-btn').addEventListener('click', () => {
+                const code = document.getElementById('cert-verify-code').textContent;
+                const solvedCount = gameState.wordResults.filter(r => r.solved).length;
+                const summaryText =
+                    `LEXICON SCORE REPORT (${code})\n` +
+                    `Student: ${gameState.studentName} ${gameState.studentClass ? '(' + gameState.studentClass + ')' : ''}\n` +
+                    `Score: ${gameState.score.toLocaleString()} / ${gameState.maxScore.toLocaleString()} pts (${solvedCount}/${gameState.sessionWords.length} words solved)\n` +
+                    `Completed: ${gameState.completedTimestamp}`;
+                navigator.clipboard.writeText(summaryText);
+                alert("Official score summary copied to clipboard!");
+            });
+        });
+    </script>
+</body>
+</html>
